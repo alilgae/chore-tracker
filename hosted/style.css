@@ -60,11 +60,11 @@ nav:nth-child(1) {
 
 .taskForm label {
     display: inline-block;
-    width: 75px;
-    margin-left: 10px;
+    width: max-content;
+    padding: 0 1em;
     font-size: 1.2em;
-    float: left;
     color: white;
+    float: left;
 }
 
 .taskForm input[type=text] {
@@ -212,6 +212,8 @@ nav:nth-child(1) {
     padding: 10px;
     min-height:60px;
     overflow: hidden;
+    display: flex;
+    justify-content: space-between;
 }
 
 .task:hover {
@@ -241,18 +243,18 @@ h3.emptyTask {
 
 h3.taskTitle {
     float:left;
-    width: 200px;
+    width: max-content;
     font-weight: bold;
-    padding-left: 65px;
+    margin-left: 12px;
     font-size: 1.5em;
 }
 
 h3.taskFrequency {
     float:right;
     text-align: left;
-    width: 100px;
+    width: max-content;
     font-weight: bold;
-    padding-right: 40px;
+    margin-right: 40px;
     font-size: 1.5em;
 }
 

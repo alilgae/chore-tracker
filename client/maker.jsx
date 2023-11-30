@@ -9,35 +9,39 @@ const handleTask = (e) => {
     const title = e.target.querySelector("#taskTitle").value;
     const frequency = e.target.querySelector("#taskFrequency").value;
 
-    if(!title || !frequency) {
+    e.target.querySelector("#taskTitle").value = "";
+    e.target.querySelector("#taskFrequency").value = "";
+
+    if (!title || !frequency) {
         helper.handleError('All fields are required');
         return false;
     }
 
-    helper.sendPost(e.target.action, {title, frequency}, loadTasksFromServer);
+    helper.sendPost(e.target.action, { title, frequency }, loadTasksFromServer);
+
     return false;
 }
 
 const TaskForm = (props) => {
     return (
-        <form   id="taskForm"
-                name="taskForm"
-                onSubmit={handleTask}
-                action='/maker'
-                method='POST'
-                className='taskForm'
+        <form id="taskForm"
+            name="taskForm"
+            onSubmit={handleTask}
+            action='/maker'
+            method='POST'
+            className='taskForm'
         >
             <label htmlFor='title'>Title: </label>
             <input id='taskTitle' type='text' name='name' placeholder='Task Title' />
             <label htmlFor='frequency'>Frequency: </label>
-            <input id='taskFrequency' type='number' min='0' name='frequency' />
+            <input id='taskFrequency' type='number' min='0' name='frequency' placeholder='days' />
             <input className='makeTaskSubmit' type='submit' value='Make Task' />
         </form>
     );
 };
 
 const TaskList = (props) => {
-    if(props.tasks.length === 0) {
+    if (props.tasks.length === 0) {
         return (
             <div className='taskList'>
                 <h3 className='emptyTask'>No Tasks Yet!</h3>
@@ -75,7 +79,7 @@ const loadAccountType = async () => {
     const response = await fetch('/getAccountUsernameType');
     const data = await response.json();
     ReactDOM.render(
-        <AccountType paid={data.account[0].paidAccount}/>,
+        <AccountType paid={data.account[0].paidAccount} />,
         document.getElementById("accountType")
     )
 }
@@ -85,25 +89,25 @@ const handleUpgrade = (e) => {
     helper.hideError();
 
     helper.sendPost('./upgradeAccount');
-    
+
     loadAccountType();
     return false;
 }
 
-const AccountType = (props) => {  
+const AccountType = (props) => {
     return (
         <div className='account'>
-            <h3 className='accountType'>Account type: {props.paid ? "Premium" : "Free" }</h3>
-            {!props.paid ? 
-            <form   id="upgradeForm"
-                name="upgradeForm"
-                onSubmit={handleUpgrade}
-                action='/upgradeAccount'
-                method='POST'
-                className='upgradeForm'
-        >
-            <input className='upgradeAccount' type='submit' value='Upgrade to Premium Account' />
-        </form> : null}
+            <h3 className='accountType'>Account type: {props.paid ? "Premium" : "Free"}</h3>
+            {!props.paid ?
+                <form id="upgradeForm"
+                    name="upgradeForm"
+                    onSubmit={handleUpgrade}
+                    action='/upgradeAccount'
+                    method='POST'
+                    className='upgradeForm'
+                >
+                    <input className='upgradeAccount' type='submit' value='Upgrade to Premium Account' />
+                </form> : null}
         </div>
     )
 }

@@ -10,10 +10,15 @@ const TaskSchema = new mongoose.Schema({
     trim: true,
     set: setName,
   },
+  date: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
   frequency: {
     type: Number,
     min: 0,
-    required: true,
+    required: false,
   },
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -27,8 +32,9 @@ const TaskSchema = new mongoose.Schema({
 });
 
 TaskSchema.statics.toAPI = (doc) => ({
-  name: doc.name,
-  age: doc.age,
+  title: doc.title,
+  date: doc.date,
+  frequency: doc.frequency,
 });
 
 const TaskModel = mongoose.model('Task', TaskSchema);
