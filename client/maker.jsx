@@ -8,16 +8,23 @@ const handleTask = (e) => {
 
     const title = e.target.querySelector("#taskTitle").value;
     const frequency = e.target.querySelector("#taskFrequency").value;
+    const startDate = `${e.target.querySelector("#taskStart").value}`;
+
+    const date = startDate.split('-');
+    console.log(date);
+
+    const newDate = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+    console.log(newDate);
 
     e.target.querySelector("#taskTitle").value = "";
     e.target.querySelector("#taskFrequency").value = "";
 
-    if (!title || !frequency) {
+    if (!title || !frequency || !startDate) {
         helper.handleError('All fields are required');
         return false;
     }
 
-    helper.sendPost(e.target.action, { title, frequency }, loadTasksFromServer);
+    helper.sendPost(e.target.action, { title, startDate: newDate, frequency, }, loadTasksFromServer);
 
     return false;
 }
@@ -35,6 +42,8 @@ const TaskForm = (props) => {
             <input id='taskTitle' type='text' name='name' placeholder='Task Title' />
             <label htmlFor='frequency'>Frequency: </label>
             <input id='taskFrequency' type='number' min='0' name='frequency' placeholder='days' />
+            <label for="taskStart">Start date:</label>
+            <input type="date" id="taskStart" name="taskStart" />
             <input className='makeTaskSubmit' type='submit' value='Make Task' />
         </form>
     );
@@ -55,6 +64,7 @@ const TaskList = (props) => {
                 <img src='/assets/img/domoface.jpeg' alt='domo face' className='domoFace' />
                 <h3 className='taskTitle'>Title: {task.title}</h3>
                 <h3 className='taskFrequency'>Frequency: Every {task.frequency} days</h3>
+                <h3 className='taskStart'>Starting on {task.startDate}</h3>
             </div>
         );
     });

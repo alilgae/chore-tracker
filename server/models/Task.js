@@ -10,10 +10,9 @@ const TaskSchema = new mongoose.Schema({
     trim: true,
     set: setName,
   },
-  date: {
+  startDate: {
     type: Date,
     required: true,
-    default: Date.now,
   },
   frequency: {
     type: Number,
@@ -33,7 +32,7 @@ const TaskSchema = new mongoose.Schema({
 
 TaskSchema.statics.toAPI = (doc) => ({
   title: doc.title,
-  date: doc.date,
+  startDate: doc.startDate,
   frequency: doc.frequency,
 });
 

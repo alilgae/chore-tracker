@@ -7,7 +7,7 @@ const makerPage = (req, res) => res.render('app');
 const getTasks = async (req, res) => {
   try {
     const query = { owner: req.session.account._id };
-    const docs = await Task.find(query).select('title frequency').lean().exec();
+    const docs = await Task.find(query).select('title frequency startDate').lean().exec();
 
     return res.json({ tasks: docs });
   } catch (err) {
@@ -22,13 +22,14 @@ const makeTask = async (req, res) => {
   const taskData = {
     title: req.body.title,
     frequency: req.body.frequency,
+    startDate: req.body.startDate,
     owner: req.session.account._id,
   };
 
   try {
     const newTask = new Task(taskData);
     await newTask.save();
-    return res.status(201).json({ title: newTask.title, frequency: newTask.frequency });
+    return res.status(201).json({ title: newTask.title, frequency: newTask.frequency, startDate: newTask.startDate });
   } catch (err) {
     console.log(err);
     // duplicate entry
