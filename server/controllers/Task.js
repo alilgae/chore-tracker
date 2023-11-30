@@ -17,7 +17,7 @@ const getTasks = async (req, res) => {
 };
 
 const makeTask = async (req, res) => {
-  if (!req.body.title || !req.body.frequency) return res.status(400).json({ error: 'All fields required' });
+  if (!req.body.title || !req.body.frequency || !req.body.startDate) return res.status(400).json({ error: 'All fields required' });
 
   const taskData = {
     title: req.body.title,
@@ -29,7 +29,12 @@ const makeTask = async (req, res) => {
   try {
     const newTask = new Task(taskData);
     await newTask.save();
-    return res.status(201).json({ title: newTask.title, frequency: newTask.frequency, startDate: newTask.startDate });
+    const returnJSON = {
+      title: newTask.title,
+      frequency: newTask.frequency,
+      startDate: newTask.startDate,
+    };
+    return res.status(201).json(returnJSON);
   } catch (err) {
     console.log(err);
     // duplicate entry
