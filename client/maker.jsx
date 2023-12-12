@@ -3,6 +3,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const Calendar = require('./calendar.jsx');
 const tasks = require('./tasks.jsx');
+const account = require('./accountDetails.jsx');
 
 const handleTask = (e) => {
     e.preventDefault();
@@ -45,48 +46,11 @@ const TaskForm = (props) => {
     );
 };
 
-const loadAccountType = async () => {
-    const response = await fetch('/getAccountUsernameType');
-    const data = await response.json();
-    ReactDOM.render(
-        <AccountType paid={data.account[0].paidAccount} />,
-        document.getElementById("accountType")
-    )
-}
-
-const handleUpgrade = (e) => {
-    e.preventDefault();
-    helper.hideError();
-
-    helper.sendPost('./upgradeAccount');
-
-    loadAccountType();
-    return false;
-}
-
-const AccountType = (props) => {
-    return (
-        <div className='account'>
-            <h3 className='accountType'>Account type: {props.paid ? "Premium" : "Free"}</h3>
-            {!props.paid ?
-                <form id="upgradeForm"
-                    name="upgradeForm"
-                    onSubmit={handleUpgrade}
-                    action='/upgradeAccount'
-                    method='POST'
-                    className='upgradeForm'
-                >
-                    <input className='upgradeAccount' type='submit' value='Upgrade to Premium Account' />
-                </form> : null}
-        </div>
-    )
-}
-
 const init = () => {
     ReactDOM.render(<TaskForm />, document.getElementById('makeTask'));
     ReactDOM.render(<Calendar />, document.getElementById('calendar'));
     tasks.loadTasksFromServer();
-    loadAccountType();
+    account.loadAccountType();
 }
 
 window.onload = init;

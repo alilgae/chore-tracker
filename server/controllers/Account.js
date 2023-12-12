@@ -65,16 +65,24 @@ const getAccountDetails = async (req, res) => {
 
 const upgradeAccount = async (req, res) => {
   const account = { _id: req.session.account._id };
-  if (!account.paidAccount) {
     try {
       await Account.findOneAndUpdate(account, { $set: { paidAccount: true } }).exec();
-      return res.status(201);
+      return res.status(204);
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: 'Something went wrong' });
     }
-  }
-  return res.status(500).json({ error: 'Error in upgrading account' });
+};
+
+const downgradeAccount = async (req, res) => {
+  const account = { _id: req.session.account._id };
+    try {
+      await Account.findOneAndUpdate(account, { $set: { paidAccount: false } }).exec();
+      return res.status(204);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Something went wrong' });
+    }
 };
 
 module.exports = {
@@ -84,5 +92,6 @@ module.exports = {
   signup,
   getAccountDetails,
   upgradeAccount,
+  downgradeAccount,
   detailsPage,
 };

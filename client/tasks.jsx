@@ -8,16 +8,13 @@ const loadTasksFromServer = async () => {
 }
 
 const renderTasks = (data) => {
-    console.log(data);
     for(let task of data.tasks) {
-        console.log(task);
         let date = task.startDate.split('-');
         date[2] = date[2].substring(0, 2);
         date = `_${date[0]}-${date[1]}-${date[2]}`;
         if(document.querySelector(`.${date}`) !== null) {
             const taskLI = `<li key=${task._id} class='taskItem'>${task.title}</li>`;
             document.querySelector(`.${date}`).innerHTML += taskLI;
-            console.log(taskLI);
         }
     }
 }

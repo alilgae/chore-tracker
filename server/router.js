@@ -7,6 +7,7 @@ const router = (app) => {
   app.get('/getAccountUsernameType', mid.requiresLogin, controllers.Account.getAccountDetails);
 
   app.post('/upgradeAccount', mid.requiresLogin, controllers.Account.upgradeAccount);
+  app.post('/downgradeAccount', mid.requiresLogin, controllers.Account.downgradeAccount);
 
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
