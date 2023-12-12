@@ -14,11 +14,6 @@ const TaskSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  frequency: {
-    type: Number,
-    min: 0,
-    required: false,
-  },
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
@@ -33,7 +28,6 @@ const TaskSchema = new mongoose.Schema({
 TaskSchema.statics.toAPI = (doc) => ({
   title: doc.title,
   startDate: doc.startDate,
-  frequency: doc.frequency,
 });
 
 const TaskModel = mongoose.model('Task', TaskSchema);
