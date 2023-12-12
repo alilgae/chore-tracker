@@ -58,8 +58,43 @@ const changeTypeHandler = (e) => {
     return false;
 }
 
+const ChangePassWindow = (props) => {
+    return (
+        <form   id="loginForm"
+                name="loginForm"
+                onSubmit={handlePasswordChange}
+                action='/changePass'
+                method='POST'
+                className='mainForm'
+        >
+            <label htmlFor='pass'>Password: </label>
+            <input id='pass' type='text' name='pass' placeholder='password' />
+            <label htmlFor='pass2'>Password: </label>
+            <input id='pass2' type='password' name='pass2' placeholder='re-enter password' />
+            <input className='formSubmit' type='submit' value='Change password' />
+        </form>
+    );
+};
+
+const handlePasswordChange = (e) => {
+    e.preventDefault();
+    helper.hideError();
+    
+    const pass = e.target.querySelector('#pass').value;
+    const pass2 = e.target.querySelector('#pass2').value;
+
+    if(!pass || !pass2) {
+        helper.handleError('All fields required');
+        return false;
+    }
+
+    helper.sendPost(e.target.action, {pass, pass2});
+    return false;
+};
+
 const init = () => {
     loadAccountDetails();
+    ReactDOM.render(<ChangePassWindow />, document.querySelector("#pass"));
 }
 
 window.onload = init;

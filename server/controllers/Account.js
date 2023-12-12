@@ -51,6 +51,26 @@ const signup = async (req, res) => {
   }
 };
 
+const changePass = async (req, res) => {
+  const account = { _id: req.session.account._id };
+  const pass = `${req.body.pass}`;
+  const pass2 = `${req.body.pass2}`;
+
+  if (!pass || !pass2) return res.status(400).json({ error: 'All fields required' });
+  if (pass !== pass2) return res.status(400).json({ error: 'Passwords must match' });
+
+  try {
+      const hash = await Account.generateHash(pass);
+      await Account.findOneAndUpdate(account, { $set: { password: hash } }).exec();
+      return res.json({ error: 'success' });
+    
+  } catch (err) {
+    console.log(err);
+
+    return res.status(500).json({ error: 'An error occurred' });
+  }
+}
+
 const getAccountDetails = async (req, res) => {
   try {
     const account = { _id: req.session.account._id };
@@ -65,24 +85,24 @@ const getAccountDetails = async (req, res) => {
 
 const upgradeAccount = async (req, res) => {
   const account = { _id: req.session.account._id };
-    try {
-      await Account.findOneAndUpdate(account, { $set: { paidAccount: true } }).exec();
-      return res.status(204);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ error: 'Something went wrong' });
-    }
+  try {
+    await Account.findOneAndUpdate(account, { $set: { paidAccount: true } }).exec();
+    return res.status(204);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
 };
 
 const downgradeAccount = async (req, res) => {
   const account = { _id: req.session.account._id };
-    try {
-      await Account.findOneAndUpdate(account, { $set: { paidAccount: false } }).exec();
-      return res.status(204);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ error: 'Something went wrong' });
-    }
+  try {
+    await Account.findOneAndUpdate(account, { $set: { paidAccount: false } }).exec();
+    return res.status(204);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
 };
 
 module.exports = {
@@ -94,4 +114,5 @@ module.exports = {
   upgradeAccount,
   downgradeAccount,
   detailsPage,
+  changePass,
 };
