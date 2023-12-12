@@ -14,6 +14,8 @@ const handleTask = (e) => {
 
     const date = startDate.split('-');
     const newDate = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]));
+    
+    const premiumStatus = document.querySelector("#accountType").textContent.split(": ")[1];
 
     e.target.querySelector("#taskTitle").value = "";
     e.target.querySelector("#taskStart").value = "";
@@ -22,8 +24,20 @@ const handleTask = (e) => {
         helper.handleError('All fields are required');
         return false;
     }
-
-    helper.sendPost(e.target.action, { title, startDate: newDate, }, tasks.reloadTasks);
+    if (document.querySelectorAll(`._${date[0]}-${date[1]}-${date[2]}>li`).length < 2) {
+        console.log("a");
+        helper.sendPost(e.target.action, { title, startDate: newDate, }, tasks.reloadTasks);
+    }
+    else { 
+        if(premiumStatus === 'Premium') { console.log('b');
+            helper.sendPost(e.target.action, { title, startDate: newDate, }, tasks.reloadTasks);
+        }
+        else {
+            console.log('no');
+            helper.handleError('Upgrade to premium to add more tasks!');
+            return false;
+        }
+    }
 
     return false;
 }

@@ -60,16 +60,15 @@ const changePass = async (req, res) => {
   if (pass !== pass2) return res.status(400).json({ error: 'Passwords must match' });
 
   try {
-      const hash = await Account.generateHash(pass);
-      await Account.findOneAndUpdate(account, { $set: { password: hash } }).exec();
-      return res.json({ error: 'success' });
-    
+    const hash = await Account.generateHash(pass);
+    await Account.findOneAndUpdate(account, { $set: { password: hash } }).exec();
+    return res.json({ error: 'success' });
   } catch (err) {
     console.log(err);
 
     return res.status(500).json({ error: 'An error occurred' });
   }
-}
+};
 
 const getAccountDetails = async (req, res) => {
   try {

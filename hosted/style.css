@@ -4,6 +4,7 @@ html, body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    background-color: #2b4c64;
 }
 
 #logo {
@@ -17,7 +18,8 @@ html, body {
 nav {
     width: 100%;
     height: 50px;
-    background-color: #55acee;
+    background-color: #001525;
+    border-bottom: 2px solid #338acc;
 }
 
 nav:nth-child(1) {
@@ -38,7 +40,7 @@ nav:nth-child(1) {
     text-decoration: none;
     padding: 5px;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #001525;
     transition: background-color 0.4s ease;
 }
 
@@ -49,13 +51,13 @@ nav:nth-child(1) {
 
 .taskForm {
     border: 2px solid #338acc;
+    border-top: 0px;
     height: 35px;
     width: 700px;
     margin-top:0px;
     padding-top:10px;
-    background-color: #55acee;
+    background-color: #001525;
     border-bottom-right-radius: 4px;
-    border-top-right-radius: 4px;
 }
 
 .taskForm label {
@@ -71,21 +73,21 @@ nav:nth-child(1) {
     float:left;
 }
 
-.makeTaskSubmit {
+.makeTaskSubmit, .upgradeAccount, button {
     transition: background-color 0.4s ease;
     display: inline;
-    width: 90px;
-    background-color: #55acee;
+    width: max-content;
+    background-color: #001525;
     border-radius: 2px;
     color: white;
     text-decoration: none;
 }
 
-.makeTaskSubmit:link, .makeTaskSubmit:visited, .makeTaskSubmit:hover, .makeTaskSubmit:active {
+.makeTaskSubmit:link, .upgradeAccount:link, .makeTaskSubmit:visited, .upgradeAccount:visited, .makeTaskSubmit:hover, .upgradeAccount:hover, .makeTaskSubmit:active, .upgradeAccount.active {
     color: white;
 }
 
-.makeTaskSubmit:hover {
+.makeTaskSubmit:hover, .upgradeAccount:hover, button:hover {
     transition: background-color 0.4s ease;
     background-color: #338acc;
 }
@@ -118,9 +120,9 @@ nav:nth-child(1) {
     margin-top: 14px;
     font-size: 1.2em;
     width: 100px;
-    background-color: #55acee;
+    background-color: #001525;
     border-radius: 2px;
-    border-color: #66acee;
+    border-color: #111525;
     padding: 3px 0px;
     color: white;
     text-decoration: none;
@@ -144,7 +146,7 @@ nav:nth-child(1) {
 
 #user:focus, #pass:focus, #pass2:focus {
     outline: none;
-    box-shadow: 0px 0px 1px 1px #55acee;
+    box-shadow: 0px 0px 1px 1px #001525;
 }
 
 .hidden {
@@ -152,26 +154,27 @@ nav:nth-child(1) {
 }
 
 #iconMessage {
-    top: 250px;
+    top: 150px;
     width: 250px;
     height: 650px;
     position: absolute;
     z-index: 200;
-    right: 0px;
-    overflow: hidden;
+    right: 100px;
 }
 
 #iconMessage h3 {
     width: 200px;
     position: absolute;
     top: 0px;
-    left: 20px;
+    left: -10px
+
 }
 
-#speech {
+#errorBox {
     height: 120px;
     width: 250px;
-    z-index:300;
+    z-index:500;
+    transform: translate(-50px, -10px);
 }
 
 #errorMessage {
@@ -195,7 +198,7 @@ nav:nth-child(1) {
 #tasks {
     width: 40%;
     min-width: 400px;
-    border: 2px solid #55acee;
+    border: 2px solid #001525;
     border-radius: 4px;
     margin: 0 auto;
     margin-top: 100px;
@@ -206,9 +209,9 @@ nav:nth-child(1) {
     margin: 0 auto;
     margin-top: 2px;
     margin-bottom: 2px;
-    border: 2px solid #55acee;
+    border: 2px solid #001525;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #001525;
     padding: 10px;
     min-height:60px;
     overflow: hidden;
@@ -221,16 +224,6 @@ nav:nth-child(1) {
     border-color: rgba(255,255,255, 0.8);
     transition: background-color 2.6s ease-out;
     background-color: #66bfff;
-}
-
-img.domoFace {
-    margin-left: 25px;
-    margin-right: 10px;
-    height: 50px;
-    width: 50px;
-    border-radius: 4px;
-    margin-top:10px;
-    float:left;
 }
 
 h3.emptyTask {
@@ -270,6 +263,8 @@ h3.taskFrequency {
 #calendar {
     margin: auto;
     width: max-content;
+    z-index: 5;
+    margin-top: -75px;
 }
 .cal {
     width: 900px;
@@ -295,7 +290,7 @@ h3.taskFrequency {
   }
   
   .table-header {
-    height: 100px;
+    height: min-content;
     width: 100%;
     display: flex;
     align-items: center;
@@ -314,17 +309,23 @@ h3.taskFrequency {
     flex-wrap: wrap;
     justify-content: center;
     box-sizing: border-box;
+    border-radius: 12px;
   }
   
   .calendar-day {
     width: 125px;
-    height: 75px;
+    height: max-content;
+    min-height: 70px;
     position: relative;
     border: 1px solid #a6a6a6;
+    transition: background-color 0.4s ease;
+    background-color: #001525;
+    color: white;
   }
   
   .calendar-day:hover {
-    background-color: rgba(0,0,0,.10);
+    transition: background-color 0.4s ease;
+    background-color: #338acc;
   }
   
   .calendar-day p {
@@ -332,13 +333,18 @@ h3.taskFrequency {
     right: 10px;
     color: #a6a6a6;
   }
+  .calendar-day li {
+    color: #d0ebff;
+    font-weight: bold;
+    font-size: 16px;
+  }
   
   .current p {
-    color: #000000;
+    color: #ffffff;
   }
   
   .selected p {
-    color: #cc0000;
+    color: #338acc;
     font-weight: bold;
   }
   .tools>h2 {
